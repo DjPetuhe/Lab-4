@@ -5,5 +5,5 @@ using namespace std;
 class Encoder
 {
 public:
-	static vector<int> zip(vector<char>);
+	static vector<int> zip(vector<char>, int&);
 };

@@ -13,22 +13,28 @@ vector<char> Decoder::unzip(vector<int> code)
         Dictionary[cnt] = tempChar;
         cnt++;
     }
-    int previous = code[0],
+    vector<char> fileText;
+    int previous = code[0];
     int current;
     string a = Dictionary[previous];
     string b;
     b += a[0];
+    fileText.push_back(a[0]);
     for (int i = 0; i < code.size() - 1; i++)
     {
         current = code[i + 1];
         if (Dictionary.find(current) == Dictionary.end())
         {
-            b = Dictionary[previous];
-            b = b + a;
+            a = Dictionary[previous];
+            a = a + b;
         }
         else 
+        {   
+            a = Dictionary[current];
+        }
+        for (int k = 0; k < a.size(); k++)
         {
-            b = Dictionary[current];
+            fileText.push_back(a[k]);
         }
         b.clear();
         b += a[0];
@@ -36,4 +42,5 @@ vector<char> Decoder::unzip(vector<int> code)
         cnt++;
         previous = current;
     }
+    return fileText;
 }
