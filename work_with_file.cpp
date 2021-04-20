@@ -87,9 +87,9 @@ void Write_coded (int *numbers, int table_size, int num_size, string file_name) 
     file.close();
 }
 
-void Read_coded (int *numbers, string file_name, int file_size) {
+void Read_coded (vector<int> &code, string file_name, int file_size) {
     int size, byte_size;
-    char byte_size_char = 12;
+    char byte_size_char;
 
     ifstream file;
     file.open(file_name, ios::binary);
@@ -97,7 +97,7 @@ void Read_coded (int *numbers, string file_name, int file_size) {
     file.read(&byte_size_char, 1);
     file.read((char*)&size, 4);
 
-    numbers = new int[size];
+    int *numbers = new int[size];
 
     byte_size = byte_size_char;
 
@@ -131,8 +131,8 @@ void Read_coded (int *numbers, string file_name, int file_size) {
         }
     }
 
-    for (int i = 0; i < 5; i++) {
-        cout << numbers[i] << endl;
+    for (int i = 0; i < size; i++) {
+        code.push_back(numbers[i]);
     }
 
     file.close();
