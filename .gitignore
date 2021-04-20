@@ -20,3 +20,7 @@ Archiver/Archiver/Archiver.vcxproj
 Archiver/Archiver.sln
 
 Archiver/Archiver/Archiver.vcxproj.user
+
+Archiver/Archiver/Debug/
+
+Archiver/Debug/

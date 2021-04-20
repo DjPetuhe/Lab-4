@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
+using namespace std;
 
 class Decoder
 {
-	static char* unzip(int*);
+public:
+	static vector<char> unzip(vector<int>);
 };

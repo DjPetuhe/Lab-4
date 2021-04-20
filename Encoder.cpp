@@ -1,39 +1,43 @@
 #include "Encoder.h"
+#include <iostream>
 #include <unordered_map>
 #include <string>
 using namespace std;
 
-vector<int> Encoder::zip(vector<char> fileText)
+vector<int> Encoder::zip(vector<char> fileText,int &dictionarySize)
 {
     unordered_map<string, int> Dictionary;
     int cnt = 0;
     while (cnt < 256)
     {
-        Dictionary[to_string(char(cnt))] = cnt;
+        string tempChar = "";
+        tempChar += char(cnt);
+        Dictionary[tempChar] = cnt;
         cnt++;
     }
-    string p, c;
+    string current, next;
     vector<int> code;
-    p += fileText[0];
+    current += fileText[0];
     for (int i = 0; i < fileText.size(); i++)
     {
         if (i != fileText.size() - 1)
         {
-            c += fileText[i + 1];
+            next += fileText[i + 1];
         }
-        if (Dictionary.find(p + c) != Dictionary.end())
+        if (Dictionary.find(current + next) != Dictionary.end())
         {
-            p = p + c;
+            current = current + next;
         }
         else
         {
-            code.push_back(Dictionary[p]);
-            Dictionary[p + c] = cnt;
+            code.push_back(Dictionary[current]);
+            Dictionary[current + next] = cnt;
             cnt++;
-            p = c;
+            current = next;
         }
-        c.clear();
+        next.clear();
     }
-    code.push_back(Dictionary[p]);
+    code.push_back(Dictionary[current]);
+    dictionarySize = Dictionary.size();
     return code;
 }

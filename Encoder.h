@@ -1,6 +1,9 @@
 #pragma once
+#include <vector>
+using namespace std;
 
 class Encoder
 {
-	static vector<int> zip(char*);
+public:
+	static vector<int> zip(vector<char>);
 };
