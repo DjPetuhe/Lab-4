@@ -2,5 +2,5 @@
 
 class Encoder
 {
-	static int* zip(char*);
+	static vector<int> zip(char*);
 };
