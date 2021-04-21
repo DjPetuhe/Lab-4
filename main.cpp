@@ -22,6 +22,9 @@ int main (int argc, char* argv[])
 
 	} else if (arguments[0] == "--decompress") {
 		Decoder dec;
-		dec.Decode(arguments[1]);
+		string file1, file2;
+		dec.decombine(arguments[1], &file1, &file2);
+		dec.Decode(file1);
+		dec.Decode(file2);
 	}
 }

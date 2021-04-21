@@ -68,3 +68,50 @@ void Decoder::Decode (string fileName) {
 
 	fw.Write_decoded_file (bytes, fileName, fileText.size());
 }
+
+void Decoder::decombine (string archiveName, string *fileName1, string *fileName2) {
+    ofstream file1, file2;
+    ifstream archive;
+    int size1, size2; 
+    char nameSize1, nameSize2;
+
+    archive.open(archiveName, ios::binary);
+
+    archive.read(&nameSize1, 1);
+    archive.read(&nameSize2, 1);
+
+    archive.read((char*)&size1, 4);
+    archive.read((char*)&size2, 4);
+
+    char *nameChar1 = new char[nameSize1];
+    char *nameChar2 = new char[nameSize2];
+
+    archive.read(nameChar1, nameSize1);
+    archive.read(nameChar2, nameSize2);
+
+    *fileName1 = nameChar1;
+    *fileName2 = nameChar2;
+
+    file1.open(*fileName1, ios::binary);
+    file2.open(*fileName2, ios::binary);
+
+    char *fileChar1 = new char[size1];
+    char *fileChar2 = new char[size2];
+
+    archive.read(fileChar1, size1);
+    archive.read(fileChar2, size2);
+
+    file1.write(fileChar1, size1);
+    file2.write(fileChar2, size2);
+
+    //cout << size2 << endl;
+
+    delete nameChar1;
+    delete nameChar2;
+    delete fileChar1;
+    delete fileChar2;
+
+    file1.close();
+    file2.close();
+    archive.close();
+}

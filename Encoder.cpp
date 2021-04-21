@@ -79,7 +79,7 @@ void Encoder::combine (string fileName1, string fileName2, string archiveName) {
     FileReader fr;
     int size1, size2; 
     char nameSize1, nameSize2;
-    const char n = 2;
+    //const char n = 2;
 
     nameSize1 = fileName1.size();
     nameSize2 = fileName2.size();
@@ -92,7 +92,7 @@ void Encoder::combine (string fileName1, string fileName2, string archiveName) {
 
     archive.open(archiveName);
 
-    archive.write(&n, 1);
+    //archive.write(&n, 1);
 
     archive.write(&nameSize1, 1);
     archive.write(&nameSize2, 1);
@@ -106,7 +106,7 @@ void Encoder::combine (string fileName1, string fileName2, string archiveName) {
         nameChar1[i] = fileName1[i];
     }
 
-    char *nameChar2 = new char[nameSize1];
+    char *nameChar2 = new char[nameSize2];
 
     for (int i = 0; i < nameSize2; i++) {
         nameChar2[i] = fileName2[i];
@@ -123,6 +123,8 @@ void Encoder::combine (string fileName1, string fileName2, string archiveName) {
 
     archive.write(fileChar1, size1);
     archive.write(fileChar2, size2);
+
+    //cout << size2 << endl;
 
     delete nameChar1;
     delete nameChar2;
