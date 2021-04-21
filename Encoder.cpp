@@ -2,6 +2,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
+#include"FileReader.h"
+#include"FileWriter.h"
 
 using namespace std;
 
@@ -43,101 +45,18 @@ vector<int> Encoder::zip(vector<char> fileText,int &dictionarySize)
     return code;
 }
 
-int Encoder::file_size (string name) {
-    ifstream file;
-    int size;
-    file.open(name, ios::binary);
-    file.seekg(0,ios_base::end);
-    size = file.tellg();
-    file.close();
-    return size;
-}
-
-void Encoder::Read_file (char *bytes, string name, int size) {
-    ifstream file;
-    
-    file.open(name, ios::binary);
-
-    file.read(bytes, size);
-
-    file.close();
-}
-
-void Encoder::Write_file (int *numbers, int table_size, int num_size, string file_name) {
-    int byte_size, bits_number, byte_number;
-    char byte_size_char;
-
-    ofstream file;
-    file.open(file_name, ios::binary);
-
-    if (log2(table_size) > (float)(int)log2(table_size)){
-        byte_size = (int)log2(table_size) + 1;
-    }
-    else {
-        byte_size = (int)log2(table_size);
-    }
-
-    byte_size_char = (char)byte_size;
-
-    file.write(&byte_size_char, 1);
-    file.write((char*)&(num_size), sizeof(int));
-
-    bits_number = byte_size * num_size;
-    
-    if (bits_number % 8 != 0){
-        byte_number = bits_number / 8 + 1;
-    }
-    else {
-        byte_number = bits_number / 8;
-    }
-
-    char *byte = new char[byte_number];
-
-    for (int i = 0; i < byte_number; i++) {
-        byte[i] = 0;
-    }
-
-    int bit_int = byte_size - 1;
-    int bit_char = 7;
-    int int_number = 0;
-    int char_number = 0;
-    int res;
-
-    for (int i = 0; i < bits_number; i++) {
-        res = (numbers[int_number] & (1 << bit_int)) >> bit_int;
-        byte[char_number] = byte[char_number] | (res << bit_char);
-
-
-        if (bit_int == 0) {
-            bit_int = byte_size - 1;
-            int_number++;
-        } else {
-            bit_int--;
-        }
-
-        if (bit_char == 0) {
-            bit_char = 7;
-            char_number++;
-        } else {
-            bit_char--;
-        }
-    }
-
-    file.write(byte, byte_number);
-
-    file.close();
-}
-
 void Encoder::Encode (string inputName, string outputName) {
 	int dictionarySize, fileSize;
 	vector<char> fileText;
 	vector<int> code;
+    FileReader fr;
+    FileWriter fw;
 
-	fileSize = file_size(inputName);
+	fileSize = fr.file_size(inputName);
 
 	char *bytes = new char[fileSize];
 
-	Read_file (bytes, inputName, fileSize);
+	fr.Read_encode_file(bytes, inputName, fileSize);
 
 	for (int i = 0; i < fileSize; i++) {
 		fileText.push_back(bytes[i]);
@@ -151,5 +70,5 @@ void Encoder::Encode (string inputName, string outputName) {
 		numbers[i] = code[i];
 	}
 
-	Write_file (numbers, dictionarySize, code.size(), outputName);
+	fw.Write_encoded_file(numbers, dictionarySize, code.size(), outputName);
 }
