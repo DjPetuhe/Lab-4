@@ -4,6 +4,7 @@
         "*.tcc": "cpp",
         "numeric": "cpp",
         "sstream": "cpp",
-        "memory_resource": "cpp"
+        "memory_resource": "cpp",
+        "iosfwd": "cpp"
     }
 }

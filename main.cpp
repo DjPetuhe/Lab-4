@@ -14,7 +14,11 @@ int main (int argc, char* argv[])
 	
 	if (arguments[0] == "--compress") {
 		Encoder enc;
-		enc.Encode(arguments[1], arguments[2]);
+		enc.Encode(arguments[1], arguments[1]);
+		if (argc == 5) {
+			enc.Encode(arguments[2], arguments[2]);
+			enc.combine (arguments[1], arguments[2], arguments[3]);
+		}
 
 	} else if (arguments[0] == "--decompress") {
 		Decoder dec;

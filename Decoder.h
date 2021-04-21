@@ -11,5 +11,4 @@ public:
 	void Decode (string);
 private:
 	vector<char> unzip(vector<int>);
-	
 };
